@@ -6,9 +6,10 @@ const div_BlogContainer = document.getElementById("blog-container");
 
 const titleError = document.getElementById("titleError");
 const contentError = document.getElementById("contentError");
+const containerError = document.getElementById("containerError");
 
-let arr_blogpoatList = [];
-const posts = [];// global array
+
+let posts = [];// global array
 
 // Load posts from localStorage when page loads and displays them.
 document.addEventListener("DOMContentLoaded", loadPost);
@@ -27,8 +28,8 @@ function loadPost() {
     }
 }
 
-submitBtn.addEventListener("submit", function () {
-    e.preventDefault(); // prevent page refresh
+myform.addEventListener("submit", function (event) {
+    event.preventDefault(); // prevent page refresh
 
     //clear previous error msg  in the span   
     titleError.textContent = "";
@@ -36,22 +37,22 @@ submitBtn.addEventListener("submit", function () {
 
     //validate the input   
     if (title.value.trim() === "") {
-        alert("Title cannot be empty")
+        titleError.textContent = ("Title cannot be empty")
         return
-    } else if (content.value / trim() === "") {
-        alert("content cannot be empty")
+    } else if (content.value.trim() === "") {
+        contentError.textContent = ("content cannot be empty")
         return
     }
     // Call the reusable create postfunction
-    create_EditNewPost(title.value ,content.value);
-   
+    create_EditNewPost(title.value, content.value);
+
     // Clear form
     title.value = "";
     content.value = "";
 });
 
 
-function createPost(titleText, contentText) {
+function create_EditNewPost(titleText, contentText) {
     //create new post
     const newPost = {
         id: Date.now(),
@@ -63,36 +64,59 @@ function createPost(titleText, contentText) {
     // Add to array
     posts.push(newPost);
 
-    // Save to localStorage
-    localStorage.getItem(newPost);
+    // Save to localStorage requires 2 arguments
+    localStorage.setItem("posts", JSON.stringify(newPost));
 
     // Render post
-    renderPost(newPost);
-
+    renderPost();
 }
 
 
 // creating a div  with h2 and p for title and content
-function renderPost(post) {
-    let div = document.createElement("div");
-    div.classList.add("post")
-    div.innerHTML = `
-        <span class="post-id">ID: ${post.id}</span>
-        <span class="post-timestamp">Time: ${post.timestamp}</span>
-        <h2>Title:${post.title}</h2>
-        <p>Content:${post.content}</p>`;
+function renderPost() {
+    div_BlogContainer.replaceChildren();
+    const fragment= document.createDocumentFragment();
+    // div_BlogContainer = "";
 
-    div_BlogContainer.appendChild(div);
+    if (posts.length=== 0) {
+        let div = document.createElement("div");
+        div.textContent = "Blog list is empty"
+        fragment.appendChild(div)
+    } else {
+        for (let i = 0; i < posts.length; i++) {
+
+            let div = document.createElement("div");
+            div.classList.add("post")
+            div.innerHTML = `
+
+            <span class="post-id">ID: ${posts[i].id}</span>
+            <span class="post-timestamp">Time: ${posts[i].timestamp}</span>
+            <h2>Title: ${posts[i].title}</h2>
+            <p>Content: ${posts[i].content}</p>
+            `;
+            
+            // //append Remove button to div
+            // div.appendChild(Deletebutton());
+
+            // //append Edit button to div
+            // div.appendChild(Editbutton());
+
+            fragment.appendChild(div)
+        
+        } //for loop
+    }  //else loop   
+    
+    div_BlogContainer.appendChild(fragment);
+
 }
-
-function createEditbutton() {
+function Editbutton() {
     let editBtn = document.createElement("button");
     editBtn.textContent = "Edit";
     editBtn.classList.add("edit-btn");
     editBtn.style.marginLeft = "10px";
 }
 
-function createDeletebutton() {
+function Deletebutton() {
     let deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Edit";
     deleteBtn.classList.add("edit-btn");
