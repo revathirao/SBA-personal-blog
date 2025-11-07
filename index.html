@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=Personal Blog, initial-scale=1.0">
+    <script defer src="" index.js></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>Personal blog</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2> Personal Blog</h2>
+        <!-- <form action="Submit-post" methods="POSt"> -->
+    <form id ="blog-form">
+            <div class="post-title">
+                <label for="blog-title">Post-Tittle</label>
+                <input type="text" id="blog-title" required name="title"><br>
+                <span class="error-message" id="titleError"></span>
+            </div>
+
+            <div class=" post content">
+                <label for="blog-content">Post-Content</label>
+                <textarea id="blog-content" class="content-textarea" required rows="4" cols="50"
+                    placeholder="Enter your content"></textarea>
+                <span class="error-message" id="contentError"></span>
+            </div>
+
+            <button type="submit" id="submitBtn">submit-Post</button>
+        </form>
+        <h2>Blog Post List</h2>
+        <div id="blog-container"> </ul>
+        <!-- div wit the post and content will be created dynamically -->
+
+    </div>
+</body>
+
+</html>
