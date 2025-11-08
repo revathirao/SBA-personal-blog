@@ -7,7 +7,7 @@ const div_BlogContainer = document.getElementById("blog-container");
 const titleError = document.getElementById("titleError");
 const contentError = document.getElementById("contentError");
 // const containerError = document.getElementById("containerError");
-let editingPostId  =0
+let editingPostId  = null
 
 
 let posts = [];// global array
@@ -29,13 +29,16 @@ function loadPost() {
 }
 
 
-
+//both create and edit
 myform.addEventListener("submit", function (event) {
     event.preventDefault(); // prevent page refresh
 
     //clear previous error msg  in the span   
     titleError.textContent = "";
     contentError.textContent = "";
+
+    const titleValue = title.value.trim();
+    const contentValue = content.value.trim();
 
     //validate the input   
     if (title.value.trim() === "") {
@@ -45,12 +48,36 @@ myform.addEventListener("submit", function (event) {
         contentError.textContent = ("content cannot be empty")
         return
     }
-    // Call the reusable create postfunction
-    create_NewPost(title.value, content.value);
 
-    // Clear form
-    title.value = "";
-    content.value = "";
+  // Edit existing post
+if (submitBtn.textContent === "Update" && editingPostId !== null) {
+        // Editing existing post
+
+        for (let i = 0; i < posts.length; i++) {
+            if (posts[i].id === editingPostId) {
+                // Update the post’s title and content with new values
+                posts[i].title = titleValue;
+                posts[i].content = contentValue;
+                // Exit the loop since we found and updated the post
+                break;
+            }
+        }
+        
+        // Change button text back to "Submit" (normal mode)
+        submitBtn.textContent = "Submit";
+
+        // Clear the editingPostId variable (no longer editing)
+        editingPostId = null;
+        // alert("Post updated successfully!");
+    }else{
+        //adding a new post
+            create_NewPost(title.value, content.value);
+    }
+        // Clear form
+        myform.reset();
+
+        // Refresh display
+        renderPosts();
 });
 
 
@@ -123,27 +150,6 @@ function createDeletebutton(post) {
     return deleteBtn
 }
 
-// event delegation by attaching to the parent div
-function setupDeleteListener() {
-    div_BlogContainer.addEventListener("click", function (event) {
-        if (event.target.classList.contains("delete-btn")) {
-            // If it's a delete button, perform the deletion logic
-            //get the dataid so postId holds the exact ID of the post that button belonged to
-            let postId = event.target.getAttribute("data-id");
-
-            // Remove the post from the array
-            posts = posts.filter(p => p.id !== Number(postId));
-        }
-        // filter loops through all posts and keeps only the ones whose ID does not match the one being deleted.
-
-        // Update localStorage
-        localStorage.setItem("posts", JSON.stringify(posts));
-
-        // Refresh the displayed list
-        renderPosts();
-    })
-}
-setupDeleteListener();
 
 function Editbutton(post) {
     //Create a button element
@@ -162,76 +168,50 @@ function Editbutton(post) {
     return editBtn
 }
 
+// Event delegation for delete and edit
+div_BlogContainer.addEventListener("click", function (e) {
+    const target = e.target;
 
+    //delete
 
-function setupEditListener() {
-    // Attach a click event listener to the parent container (event delegation)
+     if (target.classList.contains("delete-btn")) {
+            // If it's a delete button, perform the deletion logic
+            //get the dataid so postId holds the exact ID of the post that button belonged to
+            let postId = event.target.getAttribute("data-id");
 
-    div_BlogContainer.addEventListener("click", function (e) {
+            // Remove the post from the array
+            posts = posts.filter(p => p.id !== Number(postId));
+        }
+        // filter loops through all posts and keeps only the ones whose ID does not match the one being deleted.
 
-        //  Check if the clicked element is an "Edit" button
-        if (e.target.classList.contains("edit-btn")) {
+        // Update localStorage
+        localStorage.setItem("posts", JSON.stringify(posts));
+
+        // Refresh the displayed list
+        renderPosts();
+    
+        //Edit
+
+         if (e.target.classList.contains("edit-btn")) {
             // Get the postId from button's data attribute
-            let postId = e.target.getAttribute("data-id");
+            let postId = Number(e.target.getAttribute("data-id"));
             // Find the post object in posts array that matches postId
             for (let i = 0; i < posts.length; i++) {
-                if (posts[i].id === postId) {
+                if (posts[i].id === Number(postId)) {
 
                 //Populate the form fields with existing data
-                 title.value = posts.title; //set the value for title
-                 content.value = posts.content; 
+                 title.value = posts[i].title; //set the value for title
+                 content.value = posts[i].content; 
 
                  // Cange submit button to  update
                  submitBtn.textContent = "Update"
 
                 //  Store the id of the post being edited  in a global variable)
-                editingPostId  = postId;
-
+                editingPostId  =  postId;
+                break;
                 }
             } //for loop
         } //if statement
     });
-}
-setupEditListener();
-
-//Attaching event listner to the form for submission
-div_BlogContainer.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    let titleValue = title.value.trim();
-    let contentValue = content.value.trim();
-
-    //   // Basic validation
-    // if (titleValue === "" || contentValue === "") {
-    //     alert("Title and content cannot be empty!");
-    //     return;
-    // }
-
-    if (submitBtn.textContent = "Update" || editingPostId) {
-        // Editing existing post
-
-        for (let i = 0; i < posts.length; i++) {
-            if (posts[i].id === editingPostId) {
-                // Update the post’s title and content with new values
-                posts[i].title = titleValue;
-                posts[i].content = contentValue;
-                // Exit the loop since we found and updated the post
-                break;
-            }
-        }
-        
-        // Change button text back to "Submit" (normal mode)
-        submitBtn.textContent = "Submit";
-
-        // Clear the editingPostId variable (no longer editing)
-        editingPostId = null;
-        alert("Post updated successfully!");
-    }else{
-        //adding a new post
-            create_NewPost(title.value, content.value);
-
-
-    }
-});
 
 
