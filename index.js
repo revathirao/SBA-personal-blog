@@ -29,18 +29,21 @@ function loadPost() {
 
 // Separate function for live validation
 function validateInput(input, errorSpan, fieldName) {
-    if (input.validity.valueMissing) {
-        input.setCustomValidity(`${fieldName} is required`);
+   if (!input.value.trim()) {   // manual check instead of validity
         errorSpan.textContent = `${fieldName} cannot be empty`;
+        return false;
     } else {
-         input.setCustomValidity(""); // clear any previous message
         errorSpan.textContent = "";
+        return true;
     }
 }
 
 //both create and edit
 myform.addEventListener("submit", function (event) {
     event.preventDefault(); // prevent page refresh
+
+        const titleValue = title.value.trim();
+    const contentValue = content.value.trim();
 
      // Validate fields
     const isTitleValid = validateInput(title, titleError, "Title");
@@ -49,24 +52,20 @@ myform.addEventListener("submit", function (event) {
     // Stop submission if any field is invalid
     if (!isTitleValid || !isContentValid) {
         return;
-    }
+    } 
 
-   
-    const titleValue = title.value.trim();
-    const contentValue = content.value.trim();
-
-    //validate the input   
-    if (title.value.trim() === "") {
-        titleError.textContent = ("Title cannot be empty")
-        titleError.style.color = "red";
-        title.focus(); // puts cursor in the problematic field
-        return
-    } else if (content.value.trim() === "") {
-        contentError.textContent = ("content cannot be empty")
-        contentError.style.color = "red";
-        title.focus(); // puts cursor in the problematic field
-        return
-    }
+    // // //validate the input   
+    // if (title.value.trim() === "") {
+    //     titleError.textContent = ("Title cannot be empty")
+    //     titleError.style.color = "red";
+    //     title.focus(); // puts cursor in the problematic field
+    //     return
+    // } else if (content.value.trim() === "") {
+    //     contentError.textContent = ("content cannot be empty")
+    //     contentError.style.color = "red";
+    //     title.focus(); // puts cursor in the problematic field
+    //     return
+    // }
 
     // Edit existing post
     if (submitBtn.textContent === "Update" && editingPostId !== null) {
@@ -82,31 +81,33 @@ myform.addEventListener("submit", function (event) {
             }
         }
 
-        //Resave to loaca storage
-        localStorage.setItem("posts", JSON.stringify(posts));
-
-
         // Change button text back to "Submit" (normal mode)
         submitBtn.textContent = "Submit";
-
-        message.textContent = "Post updated successfully!";
-        message.style.opacity = "1";
-
-        // will clear it automatically after 3 seconds.
-        setTimeout(() =>message.style.opacity = 0, 3000);
-
-
+      
         // Clear the editingPostId variable (no longer editing)
         editingPostId = null;
     } else {
         //adding a new post
         create_NewPost(title.value, content.value);
     }
+
+     //Resave to loaca storage
+        localStorage.setItem("posts", JSON.stringify(posts));
+    
+    // Renderpost
+    renderPosts();
+
+      //success message
+    message.textContent = submitBtn.textContent === "Update" ? 
+        "Post updated successfully!" : "Post added successfully!";
+    message.style.opacity = "1";
+
+    // Fade out message after 3 seconds
+    setTimeout(() => message.style.opacity = "0", 3000);
+  
     // Clear form
     myform.reset();
 
-    // Refresh display
-    renderPosts();
 });
 
 

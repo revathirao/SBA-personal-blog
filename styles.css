@@ -1,6 +1,7 @@
 * {
-  box-sizing: border-box; /* widths consistent, especially for inputs and containers. padding do not break the layout*/
-} 
+  box-sizing: border-box;
+  /* widths consistent, especially for inputs and containers. padding do not break the layout*/
+}
 
 body {
   font-family: Arial, sans-serif;
@@ -25,20 +26,25 @@ h2 {
   color: #333;
 }
 
-#blog-container{
-  margin-bottom: 10px;;
+#blog-container {
+  margin-bottom: 10px;
+  ;
 }
 
 
-#blog-container h2{
-   text-align: left;
-  margin-top: 20px;;
+#blog-container h2 {
+  text-align: left;
+  margin-top: 20px;
+  ;
 
 }
-label{
-  display:block;}
 
-input, textarea {
+label {
+  display: block;
+}
+
+input,
+textarea {
   width: 100%;
   padding: 8px;
   border-radius: 4px;
@@ -50,65 +56,96 @@ input, textarea {
 
 .error-message {
   color: red;
-  font-size: 0.85em;
+  font-size: 0.75em;
   display: block;
   margin-top: 2px;
+  /* font-weight: bold; */
 }
 
 #message {
-  color: green;
+  color: blanchedalmond;
   font-weight: bold;
   margin-bottom: 10px;
   text-align: center;
+  opacity: 0;
+  /* initially hidden */
+  transition: opacity 0.5s ease-in-out;
 }
 
-.delete-btn{
+
+.delete-btn {
   background-color: red;
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 6px 12px;  /* Slightly increased padding */
-  font-weight: bold;  /* Makes text more visible */
+  padding: 6px 12px;
+  /* Slightly increased padding */
+  font-weight: bold;
+  /* Makes text more visible */
   margin-bottom: 20px;
-    margin-top: 15px;;
+  margin-top: 15px;
+  ;
 }
 
 
-.edit-btn, .submitBtn{
-  background-color: green !important; 
+.edit-btn,
+#submitBtn {
+  background-color: green !;
   color: white;
   border: none;
-   padding: 6px 12px;  /* Slightly increased padding */
+  padding: 6px 12px;  /* Slightly increased padding */
   border-radius: 5px;
-  margin-bottom: 20px;;
+  margin-bottom: 20px;
     font-weight: bold;  /* Makes text more visible */
-    margin-top: 15px;;
+  margin-top: 15px;
+ }
 
+ .button-container {
+  margin-top: 10px;
+  flex: 0 0 auto;  /* prevents buttons from stretching */
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
 }
 
 button {
   cursor: pointer;
   transition: background-color 0.2s ease;
+   padding: 6px 12px;
+  border-radius: 5px;
+  border: none;
+  font-weight: bold;
+  color: white;
 }
 
 
-.remove-btn:hover {
-  background-color: darkred;  /*  Hover feedback */
+/* Submit button */
+#submitBtn {
+  background-color: green;
+}
+
+#submitBtn:hover {
+  background-color: rgb(12, 29, 12);
+}
+
+/* Edit button */
+.edit-btn {
+  background-color: green;
+  margin-left: 10px;
 }
 
 .edit-btn:hover {
-  background-color: darkgreen;  /*  Hover feedback */
-   cursor: pointer;
-  transition: background-color 0.2s ease;
+  background-color:  rgb(12, 29, 12);
 }
 
+/* Delete button */
+.delete-btn {
+  background-color: red;
+  margin-left: 10px;
+}
 
-.button-container {
-  margin-top: 10px;
-    flex: 0 0 auto; /* prevents buttons from stretching */
-  display: flex;
-  justify-content: flex-start;
-  gap: 8px;
+.delete-btn:hover {
+  background-color: darkred;
 }
 
 
@@ -117,5 +154,5 @@ button {
   padding: 10px 15px;
   margin-bottom: 12px;
   border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
