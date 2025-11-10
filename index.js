@@ -29,7 +29,7 @@ function loadPost() {
 
 // Separate function for live validation
 function validateInput(input, errorSpan, fieldName) {
-   if (!input.value.trim()) {   // manual check instead of validity
+    if (!input.value.trim()) {   // manual check instead of validity
         errorSpan.textContent = `${fieldName} cannot be empty`;
         return false;
     } else {
@@ -42,30 +42,17 @@ function validateInput(input, errorSpan, fieldName) {
 myform.addEventListener("submit", function (event) {
     event.preventDefault(); // prevent page refresh
 
-        const titleValue = title.value.trim();
+    const titleValue = title.value.trim();
     const contentValue = content.value.trim();
 
-     // Validate fields
+    // Validate fields
     const isTitleValid = validateInput(title, titleError, "Title");
     const isContentValid = validateInput(content, contentError, "Content");
 
     // Stop submission if any field is invalid
     if (!isTitleValid || !isContentValid) {
         return;
-    } 
-
-    // // //validate the input   
-    // if (title.value.trim() === "") {
-    //     titleError.textContent = ("Title cannot be empty")
-    //     titleError.style.color = "red";
-    //     title.focus(); // puts cursor in the problematic field
-    //     return
-    // } else if (content.value.trim() === "") {
-    //     contentError.textContent = ("content cannot be empty")
-    //     contentError.style.color = "red";
-    //     title.focus(); // puts cursor in the problematic field
-    //     return
-    // }
+    }
 
     // Edit existing post
     if (submitBtn.textContent === "Update" && editingPostId !== null) {
@@ -83,7 +70,7 @@ myform.addEventListener("submit", function (event) {
 
         // Change button text back to "Submit" (normal mode)
         submitBtn.textContent = "Submit";
-      
+
         // Clear the editingPostId variable (no longer editing)
         editingPostId = null;
     } else {
@@ -91,20 +78,20 @@ myform.addEventListener("submit", function (event) {
         create_NewPost(title.value, content.value);
     }
 
-     //Resave to loaca storage
-        localStorage.setItem("posts", JSON.stringify(posts));
-    
+    //Resave to loaca storage
+    localStorage.setItem("posts", JSON.stringify(posts));
+
     // Renderpost
     renderPosts();
 
-      //success message
-    message.textContent = submitBtn.textContent === "Update" ? 
+    //success message
+    message.textContent = submitBtn.textContent === "Update" ?
         "Post updated successfully!" : "Post added successfully!";
     message.style.opacity = "1";
 
     // Fade out message after 3 seconds
     setTimeout(() => message.style.opacity = "0", 3000);
-  
+
     // Clear form
     myform.reset();
 
@@ -135,7 +122,6 @@ function create_NewPost(titleText, contentText) {
 function renderPosts() {
     div_BlogContainer.replaceChildren();
     const fragment = document.createDocumentFragment();
-    // div_BlogContainer = "";
 
     if (posts.length === 0) {
         let div = document.createElement("div");
@@ -160,13 +146,6 @@ function renderPosts() {
             btnContainer.appendChild(createDeletebutton(posts[i]));
 
             div.appendChild(btnContainer)
-
-            // // //append Edit button to div
-            // div.appendChild(Editbutton(posts[i]));
-
-            // //append Remove button to div
-            // div.appendChild(createDeletebutton(posts[i]));
-
 
             fragment.appendChild(div)
 

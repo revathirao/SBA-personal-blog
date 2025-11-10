@@ -1,6 +1,5 @@
 * {
-  box-sizing: border-box;
-  /* widths consistent, especially for inputs and containers. padding do not break the layout*/
+  box-sizing: border-box;/* widths consistent, especially for inputs and containers. padding do not break the layout*/
 }
 
 body {
@@ -28,15 +27,13 @@ h2 {
 
 #blog-container {
   margin-bottom: 10px;
-  ;
+  
 }
 
 
 #blog-container h2 {
   text-align: left;
   margin-top: 20px;
-  ;
-
 }
 
 label {
@@ -59,7 +56,6 @@ textarea {
   font-size: 0.75em;
   display: block;
   margin-top: 2px;
-  /* font-weight: bold; */
 }
 
 #message {
@@ -67,8 +63,7 @@ textarea {
   font-weight: bold;
   margin-bottom: 10px;
   text-align: center;
-  opacity: 0;
-  /* initially hidden */
+  opacity: 0;/* initially hidden */
   transition: opacity 0.5s ease-in-out;
 }
 
@@ -78,25 +73,22 @@ textarea {
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 6px 12px;
-  /* Slightly increased padding */
-  font-weight: bold;
-  /* Makes text more visible */
+  padding: 6px 12px;/* Slightly increased padding */
+  font-weight: bold; /* Makes text more visible */
   margin-bottom: 20px;
   margin-top: 15px;
-  ;
 }
 
 
 .edit-btn,
 #submitBtn {
-  background-color: green !;
+  background-color: green;
   color: white;
   border: none;
   padding: 6px 12px;  /* Slightly increased padding */
   border-radius: 5px;
   margin-bottom: 20px;
-    font-weight: bold;  /* Makes text more visible */
+  font-weight: bold;  /* Makes text more visible */
   margin-top: 15px;
  }
 
@@ -117,7 +109,6 @@ button {
   font-weight: bold;
   color: white;
 }
-
 
 /* Submit button */
 #submitBtn {

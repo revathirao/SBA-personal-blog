@@ -76,3 +76,7 @@ Posts are not sorted (currently displayed in creation order).
 No confirmation dialog before deleting a post.
 No search or filter feature yet.
 Styling is minimal — UI could be improved with frameworks like Bootstrap
+
+
+screenshot
+![alt text](image.png)
